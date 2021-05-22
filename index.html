@@ -11,6 +11,10 @@ layout: default
       <div class="entry">
         {{ post.excerpt }}
       </div>
+      
+      <div class="entry">
+        by {{ post.author }}
+      </div>
 
       <a href="{{ site.baseurl }}{{ post.url }}" class="read-more">Read More</a>
     </article>
