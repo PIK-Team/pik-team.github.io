@@ -1,9 +1,7 @@
 ---
-title: scmversion
+title: Automatyczne wersjonowanie projektu w Gradle
 author: Maciej Adamski
 ---
-
-# Automatyczne wersjonowanie projektu w gradlu
 
 ## Wstęp
 
