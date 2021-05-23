@@ -112,7 +112,7 @@ In order to use the Spock framework, we have to edit the `build-gradle` file onc
 
 ### Creating the test class
 
-Head over to src/test/java and create a file called `WordRepositoryTest.groovy`. In order for the class to be recognized as a Spock test, it needs to extend the `Specification` class - this will enable the framework to automatically run our test methods. To mark it as a Spring Test class, just add a `@SpringBootTest(classes=SpringApp.class)` annotation. Be careful when passing the class argument, as it could be named differently in your project.
+Head over to `src/test`. Here, you will need to create a `groovy` subdirectory, and inside it create a file called `WordRepositoryTest.groovy`. In order for the class to be recognized as a Spock test, it needs to extend the `Specification` class - this will enable the framework to automatically run our test methods. To mark it as a Spring Test class, just add a `@SpringBootTest(classes=TestDemoApplication.class)` annotation. Be careful when passing the class argument, as it could be named differently in your project.
 
 Our tests will surely alter the contents of the database in some way or another - luckily, there is a very simple way to avoid it - you will need to add a `@Transactional` annotation - this will make sure not to commit any changes inside the repository.
 
@@ -128,7 +128,7 @@ import org.springframework.transaction.annotation.Transactional
 import spock.lang.Specification
 
 @Transactional
-@SpringBootTest
+@SpringBootTest(classes=TestDemoApplication.class)
 class WordRepositoryTest extends Specification 
 {
     @Autowired
@@ -144,14 +144,14 @@ Unlike Java, each Spock class's method starts with a `def` keyword, followed by 
 
 ### Before a test
 
-With Spock, we can create a setup method that will prepare te repository for testing. In order to do so, you need to define a `setup()` method. In my case, I decided to delete all the entries from the repository before each test. 
+With Spock, we can create a setup method that will prepare te repository for testing. In order to do so, you need to define a `setup()` method. In my case, I decided to delete all the entries from the repository before each test using the `deleteAll()` method. 
 
-Here's what the overriden method looks like:
+Here's what the method looks like:
 
 ```
 def setup()
 {
-   wordRepository.deleteAll()
+   repository.deleteAll()
 }
 ```
 
@@ -186,7 +186,9 @@ def "A word can be stored and retrieved from the database"()
 
 In Spock, the conditions don't need to be separated by a `&&` operator - this is thanks to the `then` keyword which automatically expects logical expressions.
 
-To run the tests, use the `gradlew build` command, which should automatically start all of the tests.
+And this is it. In order to run the tests, use the `gradlew build` command, which should automatically execute all of the tests.
 
+## Conclusions
 
+Unit testing repositories with Spock is a very simple process - thanks to Groovy, the syntax is very easy to learn and makes creating test cases less cumbersome when compared to other popular frameworks. This guide only scratches the surface of Spock's full capabilities - I strongly recommend to read more about it over at [Spock's official documentation](https://spockframework.org/spock/docs/1.1/all_in_one.html) as is has a lot to offer. 
 
