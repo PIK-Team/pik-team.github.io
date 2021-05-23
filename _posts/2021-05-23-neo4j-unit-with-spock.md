@@ -4,15 +4,17 @@ published: false
 # Spring Boot - testing Spring Data repositories with Spock
 
 
-In this article, I would like to present you with a simple, yet very effective approach for testing your Spring Data repositories using the Spock framework. For the purposes of this article, we will be using the Spring Data Neo4j module to create our simple DAO and repository and Gradle for handling our dependencies. 
+In this article, I would like to present you with a simple, yet very effective approach for testing your Spring Data repositories using the Spock framework. For the purposes of this article, we will be using the Spring Data Neo4j module to create our simple DAO and repository and Gradle for handling our dependencies. We will be covering a basic Spock testing features as well as a basic project setup to test out our application. To follow along, you will need to have access to a Neo4j database.
 
 ## Why Spock?
 
 Spock is a very useful framework for testing your application - it has a very simple, Groovy-based syntax, providing its user with much more flexibility when it comes down to creating test cases and checking its results.
 
-# Project setup
+## Project setup
 
-## Create your Spring Boot project
+For all the people new to the subject, I will now show you how to create a sample Spring Boot project for our testing purposes. Feel free to skip the following sections if you are already familiar with the spring setup process.
+
+### Create your Spring Boot project
 
 In order to create your project, head over to the [Spring Initializer](https://start.spring.io/) website. You will be asked to select adequate options for your project - just as shown on the image below.
 For now, we will ignore the dependencies section. Feel free to change the following options such as the Java version according to your needs.
@@ -21,13 +23,13 @@ For now, we will ignore the dependencies section. Feel free to change the follow
 
 Next, press the Generate button - this will initiate a download of a .zip archive containg all of the necessary files for this sample project. Unpack the archive in a location of your choice. 
 
-## Add dependencies
+### Add dependencies
 
 Once you're done unpacking the archive, head over to the root directory of your project and open the `build-gradle` file. Here, we will want to add some dependencies for our project. 
 Inside the `dependencies` section add the following:
 - `implementation 'org.springframework.boot:spring-boot-starter-data-neo4j'` - this will allow us to create models of Neo4j nodes and repositories.
 
-## Estabilish a connection with your database
+### Estabilish a connection with your database
 
 Head over to `src/main/resources` and open the `application.properties` file. Here, you will need to define your database's address and credentials for estabilishing a connection. You will need access to a running database for this step.
 
@@ -38,7 +40,7 @@ spring.neo4j.authentication.username=<your username>
 spring.neo4j.authentication.password=<your password>
 ```
 
-## Create a simple Data Access Object (DAO)
+### Create a simple Data Access Object (DAO)
 
 Before we create a repository, wee need a model of the repository's contents - in this example, we will create a simple Person DAO. Inside the `src/main/java` folder create a new file `Word.java`:
 
@@ -89,15 +91,54 @@ public class Word
 
 ```
 
-## Create a simple Word repository:
-Now, we will create a simple repository model for our Word entity - it will 
+### Create a simple Word repository:
+Now, we will create a simple repository model for our Word entity with two simple methods. In order to do that, we have to create a new Java Interface, which extends the `Neo4JRepository<Word, String>` interface. This will provide us with all the necessary methods to interact with the database. Just like in the previous step, create a new WordRepository.java file. Here's the code:
+
+```
+import org.springframework.data.neo4j.repository.Neo4jRepository;
+
+public interface WordRepository extends Neo4jRepository<Word, String> { }
+```
+
+Now, we should be ready to start creating tests for our sample application.
 
 
-# Setup Spock
+## Testing with Spock
 
-In order to use the Spock framework, we have to edit the `build-gradle` file once more to add missing dependencies. Inside the `dependencies` section add the following:
+### Dependencies
+In order to use the Spock framework, we have to edit the `build-gradle` file once more to add missing dependencies. Inside the `dependencies` section add the following dependencies:
 - `testImplementation 'org.spockframework:spock-core:2.0-groovy-3.0'`
 - `testImplementation 'org.spockframework:spock-spring:2.0-groovy-3.0'`
+
+### Creating the test class
+
+Head over to src/test/java and create a file called `WordRepositoryTest.groovy`. In order for the class to be recognized as a Spock test, it needs to extend the `Specification` class - this will enable the framework to automatically run our test methods. To mark it as a Spring Test class, just add a `@SpringBootTest(classes=SpringApp.class)` annotation. Be careful when passing the class argument, as it could be named differently in your project.
+
+Our tests will surely alter the contents of the database in some way or another - luckily, there is a very simple way to avoid it - you will need to add a `@Transactional` annotation - this will make sure not to commit any changes inside the repository.
+
+Next, we should add a WordRepository private field and annotate it with an `@Autowired` annotation - this will let us interact with the database and test out our methods.
+
+
+Here's how the class should look by now:
+
+```
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.transaction.annotation.Transactional
+import spock.lang.Specification
+
+@Transactional
+@SpringBootTest
+class WordRepositoryTest extends Specification 
+{
+    @Autowired
+    private WordRepository repository;
+}
+```
+
+Now we are ready to finally write our first Spock test.
+
+
 
 
 
