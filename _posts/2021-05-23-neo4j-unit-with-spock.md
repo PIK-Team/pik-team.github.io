@@ -1,8 +1,8 @@
 ---
+title: Spring Boot - testing Spring Data repositories with Spock
+author: Mikołaj Bieńkowski
 published: false
 ---
-# Spring Boot - testing Spring Data repositories with Spock
-
 
 In this article, I would like to present you with a simple, yet very effective approach for testing your Spring Data repositories using the Spock framework. For the purposes of this article, I will be using the Spring Data Neo4j module to create our simple DAO and repository and Gradle for handling our dependencies. I will be covering a basic Spock testing features as well as a basic project setup to test out our application. To follow along, you will need to have access to a Neo4j database.
 
