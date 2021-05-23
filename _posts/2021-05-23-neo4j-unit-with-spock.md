@@ -4,7 +4,7 @@ published: false
 # Spring Boot - testing Spring Data repositories with Spock
 
 
-In this article, I would like to present you with a simple, yet very effective approach for testing your Spring Data repositories using the Spock framework. For the purposes of this article, we will be using the Spring Data Neo4j module to create our simple DAO and repository and Gradle for handling our dependencies. We will be covering a basic Spock testing features as well as a basic project setup to test out our application. To follow along, you will need to have access to a Neo4j database.
+In this article, I would like to present you with a simple, yet very effective approach for testing your Spring Data repositories using the Spock framework. For the purposes of this article, I will be using the Spring Data Neo4j module to create our simple DAO and repository and Gradle for handling our dependencies. I will be covering a basic Spock testing features as well as a basic project setup to test out our application. To follow along, you will need to have access to a Neo4j database.
 
 ## Why Spock?
 
@@ -17,7 +17,7 @@ For all the people new to the subject, I will now show you how to create a sampl
 ### Create your Spring Boot project
 
 In order to create your project, head over to the [Spring Initializer](https://start.spring.io/) website. You will be asked to select adequate options for your project - just as shown on the image below.
-For now, we will ignore the dependencies section. Feel free to change the following options such as the Java version according to your needs.
+For now, ignore the dependencies section. Feel free to change the following options such as the Java version according to your needs.
 
 ![spring_init.png]({{site.baseurl}}/_posts/spring_init.png)
 
@@ -25,7 +25,7 @@ Next, press the Generate button - this will initiate a download of a .zip archiv
 
 ### Add dependencies
 
-Once you're done unpacking the archive, head over to the root directory of your project and open the `build-gradle` file. Here, we will want to add some dependencies for our project. 
+Once you're done unpacking the archive, head over to the root directory of your project and open the `build-gradle` file. Here, you would want to add some dependencies for our project. 
 Inside the `dependencies` section add the following:
 - `implementation 'org.springframework.boot:spring-boot-starter-data-neo4j'` - this will allow us to create models of Neo4j nodes and repositories.
 
@@ -42,7 +42,7 @@ spring.neo4j.authentication.password=<your password>
 
 ### Create a simple Data Access Object (DAO)
 
-Before we create a repository, wee need a model of the repository's contents - in this example, we will create a simple Person DAO. Inside the `src/main/java` folder create a new file `Word.java`:
+Before creating a repository, you need a model of the repository's contents - for this example, start creating a simple Person DAO. Inside the `src/main/java` folder create a new file `Word.java`:
 
 Make sure to create:
 - a getter and a setter for the `word` field
@@ -92,7 +92,7 @@ public class Word
 ```
 
 ### Create a simple Word repository:
-Now, we will create a simple repository model for our Word entity with two simple methods. In order to do that, we have to create a new Java Interface, which extends the `Neo4JRepository<Word, String>` interface. This will provide us with all the necessary methods to interact with the database. Just like in the previous step, create a new WordRepository.java file. Here's the code:
+Next, create a simple repository model for our Word entity with two simple methods. In order to do that, let's create a new Java Interface, which extends the `Neo4JRepository<Word, String>` interface. This will provide us with all the necessary methods to interact with the database. Just like in the previous step, create a new WordRepository.java file. Here's the code:
 
 ```
 import org.springframework.data.neo4j.repository.Neo4jRepository;
@@ -100,13 +100,13 @@ import org.springframework.data.neo4j.repository.Neo4jRepository;
 public interface WordRepository extends Neo4jRepository<Word, String> { }
 ```
 
-Now, we should be ready to start creating tests for our sample application.
+Now, you should be ready to start creating tests for our sample application.
 
 
 ## Testing with Spock
 
 ### Dependencies
-In order to use the Spock framework, we have to edit the `build-gradle` file once more to add missing dependencies. Inside the `dependencies` section add the following dependencies:
+In order to use the Spock framework, you have to edit the `build-gradle` file once more to add missing dependencies. Inside the `dependencies` section add the following dependencies:
 - `testImplementation 'org.spockframework:spock-core:2.0-groovy-3.0'`
 - `testImplementation 'org.spockframework:spock-spring:2.0-groovy-3.0'`
 
@@ -116,7 +116,7 @@ Head over to `src/test`. Here, you will need to create a `groovy` subdirectory, 
 
 Our tests will surely alter the contents of the database in some way or another - luckily, there is a very simple way to avoid it - you will need to add a `@Transactional` annotation - this will make sure not to commit any changes inside the repository.
 
-Next, we should add a WordRepository private field and annotate it with an `@Autowired` annotation - this will let us interact with the database and test out our methods.
+Next, let's add a WordRepository private field and annotate it with an `@Autowired` annotation - this will let us interact with the database and test out our methods.
 
 
 Here's how the class should look by now:
@@ -136,7 +136,7 @@ class WordRepositoryTest extends Specification
 }
 ```
 
-Now we are ready to finally write our first Spock test.
+Now you are ready to finally write your first Spock test.
 
 ### Basic syntax
 
@@ -144,7 +144,7 @@ Unlike Java, each Spock class's method starts with a `def` keyword, followed by 
 
 ### Before a test
 
-With Spock, we can create a setup method that will prepare te repository for testing. In order to do so, you need to define a `setup()` method. In my case, I decided to delete all the entries from the repository before each test using the `deleteAll()` method. 
+With Spock, there is an option to create a setup method that will prepare te repository for an upcoming test. This method will automatically execute before running any of the test cases. In order to use this feature, you need to implement a `setup()` method. In this case, the setup method will delete all the entries from the repository before each test using the `deleteAll()` method. 
 
 Here's what the method looks like:
 
@@ -157,9 +157,9 @@ def setup()
 
 ### Simple test method
 
-Let's create a method to test out if we can add a new Word object into the database and then retrieve it.
+Let's create a method to test out if it is possible to add a new Word object into the database and then to retrieve it.
 
-In spock, first thing to do is to name the method accordingly so that it describes what the tests is going to be about. Unlike in java, after the previously mentioned `def` keyword we will insert the methods name in double quotes. 
+In spock, first thing to do is to name the method accordingly so that it describes what the tests is going to be about. Unlike in java, after the previously mentioned `def` keyword you can define the methods name in double quotes. 
 
 Here is an example:
 
@@ -167,7 +167,7 @@ Here is an example:
 def "A word can be stored and retrieved from the database"() {}
 ```
 
-A Spock test method contains two sections: `when:` and `then:`. The former is used for the setup of our test case, the latter checks if specified conditions have been met. Let's create a new `Word` object, assign it some value, add it to the repository and then see, if a call to the repository's `findAll()` method returns a single object with the same value as the one that we have created. 
+A Spock test method contains two sections: `when:` and `then:`. The former is used for the setup of our test case, the latter checks if specified conditions have been met. Let's create a new `Word` object, assign it some value, add it to the repository and then see, if a call to the repository's `findAll()` method returns a single object with the same value as the one that you have created. 
 
 Here is the complete method:
 ```
@@ -190,5 +190,5 @@ And this is it. In order to run the tests, use the `gradlew build` command, whic
 
 ## Conclusions
 
-Unit testing repositories with Spock is a very simple process - thanks to Groovy, the syntax is very easy to learn and makes creating test cases less cumbersome when compared to other popular frameworks. This guide only scratches the surface of Spock's full capabilities - I strongly recommend to read more about it over at [Spock's official documentation](https://spockframework.org/spock/docs/1.1/all_in_one.html) as is has a lot to offer. 
+Unit testing repositories with Spock is a very simple process - thanks to Groovy, the syntax is very easy to learn and makes creating test cases less cumbersome when compared to other popular frameworks. This guide only scratches the surface of Spock's full capabilities - I strongly recommend to read more about it over at [Spock's official documentation](https://spockframework.org/spock/docs/1.1/all_in_one.html) as it has a lot more to offer. 
 
