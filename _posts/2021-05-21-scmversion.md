@@ -3,8 +3,6 @@ title: Automatyczne wersjonowanie projektu w Gradle
 author: Maciej Adamski
 ---
 
-# Automatyczne wersjonowanie projektu w gradlu
-
 
 W poniższym wpisie zostanie przedstawione narzędzie do automatycznego wersjonowania jakim jest plugin *scmVersion* do *gradla*. Plugin ten w automatyczny sposób pomaga nam zwiększać numery wersji projektów i aplikacji, bez konieczności ręcznego zmieniania każdorazowo numeru w odpowiednich plikach.
 Jest to bardzo istotne w filozofii CI/CD, gdzie kolejne wersje są wydawane dosyć często w sposób automatyczny - możemy wtedy ustawić w programie do zarządzania ciągłą integracją i ciągłym dostarczaniem, by przy aktualizacji kodu i deployowaniu aplikacji sam automatycznie zmieniał wersję uruchamiając komendę komendę, dzięki czemu programiści i osoby odpowiedzialne za projekt mogą skupić się na budowaniu aplikacji i dostarczaniu treści.
