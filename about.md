@@ -1,15 +1,14 @@
 ---
 layout: page
-title: About
+title: O nas
 permalink: /about/
 ---
 
-Some information about you!
+**Piotr Frątczak, Mikołaj Bieńkowski, Paweł Budniak, Maciej Adamski**
 
-### More Information
+Jesteśmy studentami informatyki na wydziale EiTI PW.
+Stworzyliśmy tego bloga w ramach przedmiotu PIK - Wytwarzanie aplikacji internetowych i korporacyjnych.
 
-A place to include any other types of information that you'd like to include about yourself.
+### Kontakt
 
-### Contact me
-
-[email@domain.com](mailto:email@domain.com)
+[piotrfratczak99@gmail.com](mailto:piotrfratczak99@gmail.com)
