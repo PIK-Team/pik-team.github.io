@@ -138,8 +138,55 @@ class WordRepositoryTest extends Specification
 
 Now we are ready to finally write our first Spock test.
 
+### Basic syntax
 
+Unlike Java, each Spock class's method starts with a `def` keyword, followed by the methods name - this simplifies the process of creating tests and makes the code look cleaner.
 
+### Before a test
+
+With Spock, we can create a setup method that will prepare te repository for testing. In order to do so, you need to define a `setup()` method. In my case, I decided to delete all the entries from the repository before each test. 
+
+Here's what the overriden method looks like:
+
+```
+def setup()
+{
+   wordRepository.deleteAll()
+}
+```
+
+### Simple test method
+
+Let's create a method to test out if we can add a new Word object into the database and then retrieve it.
+
+In spock, first thing to do is to name the method accordingly so that it describes what the tests is going to be about. Unlike in java, after the previously mentioned `def` keyword we will insert the methods name in double quotes. 
+
+Here is an example:
+
+```
+def "A word can be stored and retrieved from the database"() {}
+```
+
+A Spock test method contains two sections: `when:` and `then:`. The former is used for the setup of our test case, the latter checks if specified conditions have been met. Let's create a new `Word` object, assign it some value, add it to the repository and then see, if a call to the repository's `findAll()` method returns a single object with the same value as the one that we have created. 
+
+Here is the complete method:
+```
+def "A word can be stored and retrieved from the database"()
+{
+	when:
+		Word word = new Word();
+		word.setWord("Test");
+		repository.save(word);
+
+	then:
+		repository.findAll().size() == 1;
+		repository.findAll().get(0) == word;
+}
+```
+
+In Spock, the conditions don't need to be separated by a `&&` operator - this is thanks to the `then` keyword which automatically expects logical expressions.
+
+To run the tests, use the `gradlew build` command, which should automatically start all of the tests.
 
 
 
