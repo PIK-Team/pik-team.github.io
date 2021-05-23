@@ -3,7 +3,11 @@ title: Automatyczne wersjonowanie projektu w Gradle
 author: Maciej Adamski
 ---
 
-## Wstęp
+# Automatyczne wersjonowanie projektu w gradlu
+
+
+W poniższym wpisie zostanie przedstawione narzędzie do automatycznego wersjonowania jakim jest plugin *scmVersion* do *gradla*. Plugin ten w automatyczny sposób pomaga nam zwiększać numery wersji projektów i aplikacji, bez konieczności ręcznego zmieniania każdorazowo numeru w odpowiednich plikach.
+Jest to bardzo istotne w filozofii CI/CD, gdzie kolejne wersje są wydawane dosyć często w sposób automatyczny - możemy wtedy ustawić w programie do zarządzania ciągłą integracją i ciągłym dostarczaniem, by przy aktualizacji kodu i deployowaniu aplikacji sam automatycznie zmieniał wersję uruchamiając komendę komendę, dzięki czemu programiści i osoby odpowiedzialne za projekt mogą skupić się na budowaniu aplikacji i dostarczaniu treści.
 
 ### Wymagania
 Do działania automatycznego wersjonowania potrzebujemy:
@@ -44,6 +48,7 @@ tag {
 	prefix: 'pw.pik.blog-'
 }
 ```
+&nbsp;
 Tak przygotowany tag przy wydawaniu projektu będzie przekształcony w `pw.pik.blog-X.Y.Z`, gdzie x, y i z to odpowiednie numery wersji.
 By dodać prefixy dla konkretnych branchy możemy skorzystać z tablicy *branchPrefix*, np.:
 ```
@@ -54,6 +59,7 @@ tag {
 	]
 }
 ```
+&nbsp;
 Takie ustawienie sprawi, że globalnie będziemy korzystać z nazwy wersji `pw.pik.blog-X.Y.Z`, natomiast dla branchy `develop*` z wersji `pw.pik.blog.develop-X.Y.Z`. Możemy tak dodać wszystkie interesujące nas branche i odpowiednie dla nich nazwy wydań. Jeśli jakiś branch nie zostanie dopasowany to skorzysta on po prostu z globalnego prefixu.
 
 ### Repozytorium
@@ -71,6 +77,7 @@ repository {
 	directory = project.rootProject.file('<PATH>')
 }
 ``` 
+&nbsp;
 W przytoczonym przykładzie *build.gradle* znajduje się w `<root>/backend`, więc `<PATH>` musimy ustawić na cofnięcie się jeden poziom w górę: `project.rootProject.file('..')`
 
 #### Problemy "detached head"
@@ -190,8 +197,3 @@ pw.pik.blog-0.1.2
 Project version: 0.1.2
 ```
 Jak widzimy zarówno tagi repozytorium jak i wersja projektu w *gradle* pokazują ten sam numer - *0.1.2*. Oznacza to, że udało się nam wydać kolejną wersję projektu.
-
-
-## Podsumowanie
-Przedstawiona narzędzie jakim jest *scmVersion* w automatyczny sposób pomaga nam zwiększać numery wersji projektów i aplikacji, bez konieczności ręcznego zmieniania każdorazowo numeru w odpowiednich plikach.
-Jest to bardzo istotne w filozofii CI/CD, gdzie kolejne wersje wydajemy dosyć często w sposób automatyczny - możemy wtedy ustawić w programie do zarządzania ciągłą integracją i ciągłym dostarczaniem, by przy aktualizacji kodu i deployowaniu aplikacji sam automatycznie zmieniał wersję uruchamiając komendę *./gradlew release*, dzięki czemu programiści i osoby odpowiedzialne za projekt mogą skupić się na budowaniu aplikacji i dostarczaniu treści.
